@@ -1,21 +1,24 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContex } from "../AuthContex/AuthContexComponent";
 
 const Register = () => {
   const { registerWithEmailPassword } = useContext(AuthContex);
   const [success, setSuccess] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-
+    
     registerWithEmailPassword(email, password)
       .then(() => {
         setSuccess("Account created successfully");
         setErrorMsg("");
+        e.target.reset()
+        navigate("/")
       })
       .catch((err) => {
         setErrorMsg(err.message);

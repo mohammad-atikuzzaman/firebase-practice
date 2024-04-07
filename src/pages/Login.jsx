@@ -4,10 +4,10 @@ import { useContext, useState } from "react";
 import { AuthContex } from "../AuthContex/AuthContexComponent";
 
 const Login = () => {
-  const { logInWithEmailPassword} = useContext(AuthContex);
+  const { logInWithEmailPassword, logInWithGoogle } = useContext(AuthContex);
   const [showErrormessage, setShowErrMessage] = useState("");
   const navigate = useNavigate();
-  
+
   const handleSignIn = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -19,6 +19,15 @@ const Login = () => {
         e.target.reset();
       })
       .catch((err) => setShowErrMessage(err.message));
+  };
+
+  const handleGoogleLogIn = () => {
+    logInWithGoogle()
+      .then((res) => {
+        navigate("/");
+        console.log(res.user);
+      })
+      .catch((err) => console.log(err));
   };
 
   console.log(showErrormessage);
@@ -79,7 +88,9 @@ const Login = () => {
           <hr className="mx-6" />
           <div className="mx-auto p-2">
             <h2 className="text-center">Or Signin with</h2>
-            <button className="btn btn-ghost text-center">
+            <button
+              onClick={handleGoogleLogIn}
+              className="btn btn-ghost text-center">
               <FcGoogle className="text-3xl"></FcGoogle>
             </button>
           </div>
