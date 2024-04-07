@@ -1,6 +1,16 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContex } from "../AuthContex/AuthContexComponent";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContex);
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => console.log("logged out successfully"))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -11,8 +21,7 @@ const Navbar = () => {
               className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+              stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -21,10 +30,24 @@ const Navbar = () => {
               />
             </svg>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-          >
+          {user && (
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <NavLink to="/about">About</NavLink>
+              </li>
+            </ul>
+          )}
+        </div>
+        <a className="btn btn-ghost text-xl">daisyUI</a>
+      </div>
+      <div className="navbar-center hidden lg:flex">
+        {user && (
+          <ul className="menu menu-horizontal px-1">
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
@@ -32,21 +55,21 @@ const Navbar = () => {
               <NavLink to="/about">About</NavLink>
             </li>
           </ul>
-        </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
-      </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/about">About</NavLink>
-          </li>
-        </ul>
+        )}
       </div>
       <div className="navbar-end">
-        <Link to='/accounts' className="btn">Accounts</Link>
+        {user ? (
+          <>
+            <span>{user.email}</span>
+            <button onClick={handleLogOut} className="btn btn-outline ml-2">
+              LogOut
+            </button>
+          </>
+        ) : (
+          <Link to="/accounts" className="btn">
+            Accounts
+          </Link>
+        )}
       </div>
     </div>
   );

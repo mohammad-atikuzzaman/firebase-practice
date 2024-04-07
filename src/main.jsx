@@ -10,6 +10,7 @@ import Accounts from "./pages/Accounts.jsx";
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
 import AuthContexComponent from "./AuthContex/AuthContexComponent.jsx";
+import PersonalRoute from "./personal-route/PersonalRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,11 +19,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home></Home>,
+        element: (
+          <PersonalRoute>
+            <Home></Home>
+          </PersonalRoute>
+        ),
       },
       {
         path: "/about",
-        element: <About></About>,
+        element: (
+          <PersonalRoute>
+            <About></About>
+          </PersonalRoute>
+        ),
       },
       {
         path: "/accounts",

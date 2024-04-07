@@ -3,23 +3,25 @@ import { Link } from "react-router-dom";
 import { AuthContex } from "../AuthContex/AuthContexComponent";
 
 const Register = () => {
+  const { registerWithEmailPassword } = useContext(AuthContex);
+  const [success, setSuccess] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const { registerWithEmailPassoward } = useContext(AuthContex);
-  const [success, setSuccess] = useState("")
-  const [errorMsg, setErrorMsg] = useState("")
-  // console.log(RegisterWithEmailPassoward);
-
-  const handleRegister =(e)=>{
-    e.preventDefault()
+  const handleRegister = (e) => {
+    e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    registerWithEmailPassoward(email, password)
-    .then(result => setSuccess("Account created successfully"))
-    .catch(err => setErrorMsg(err.message))
-    // console.log(email,password)
-  }
-  console.log(success, errorMsg)
+    registerWithEmailPassword(email, password)
+      .then(() => {
+        setSuccess("Account created successfully");
+        setErrorMsg("");
+      })
+      .catch((err) => {
+        setErrorMsg(err.message);
+         setSuccess("");
+      });
+  };
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -65,6 +67,12 @@ const Register = () => {
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Register</button>
+            </div>
+            <div>
+              {success && <span className="text-green-600">{success}</span>}{" "}
+              {errorMsg && (
+                <span className="text-red-500">{errorMsg.split(":")[1]}</span>
+              )}
             </div>
           </form>
         </div>
