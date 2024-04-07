@@ -23,13 +23,13 @@ const Home = () => {
             <a
               rel="noopener noreferrer"
               href="#"
-              className="px-8 py-3 text-lg font-semibold rounded dark:bg-violet-600 dark:text-gray-50">
+              className="px-8 py-3 text-lg font-semibold rounded dark:bg-violet-600 dark:text-gray-50  hover:bg-violet-300  ">
               Suspendisse
             </a>
             <a
               rel="noopener noreferrer"
               href="#"
-              className="px-8 py-3 text-lg font-semibold border rounded dark:border-gray-800">
+              className="px-8 py-3 text-lg font-semibold border rounded dark:border-gray-800 hover:bg-violet-300 text-white">
               Malesuada
             </a>
           </div>

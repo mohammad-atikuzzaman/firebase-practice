@@ -1,10 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext, useState } from "react";
 import { AuthContex } from "../AuthContex/AuthContexComponent";
 
 const Login = () => {
   const { logInWithEmailPassword, logInWithGoogle } = useContext(AuthContex);
+  const location = useLocation();
+  console.log(location.state);
   const [showErrormessage, setShowErrMessage] = useState("");
   const navigate = useNavigate();
 
@@ -15,7 +17,12 @@ const Login = () => {
 
     logInWithEmailPassword(email, password)
       .then(() => {
-        navigate("/");
+        if (location.state) {
+          navigate(location.state);
+        } else {
+          navigate("/");
+        }
+
         e.target.reset();
       })
       .catch((err) => setShowErrMessage(err.message));
@@ -24,7 +31,11 @@ const Login = () => {
   const handleGoogleLogIn = () => {
     logInWithGoogle()
       .then((res) => {
-        navigate("/");
+        if (location.state) {
+          navigate(location.state);
+        } else {
+          navigate("/");
+        }
         console.log(res.user);
       })
       .catch((err) => console.log(err));
